@@ -12,18 +12,22 @@ The guides for hardhat look very good. I'm basically following along [here](http
 # Installation
 
 Install is done via npm. Create a new directory and run:
-```
+
+```bash
 $ npm init
 $ npm install --save-dev hardhat
 ```
 This will let us run `hardhat` which will be a barebones install with no plugins. Inside this environment, we will be able to run a test network and compile and test our solidity code.
 
 To run hardhat type:
-```
+
+```bash
 $ npx hardhat
 ```
+
 This will give us a prompt with the option of creating a sample project.
 
+```bash
 > 888    888                      888 888               888
 > 888    888                      888 888               888
 > 888    888                      888 888               888
@@ -40,13 +44,17 @@ This will give us a prompt with the option of creating a sample project.
 > ✔ Do you want to add a .gitignore? (Y/n) · y
 > ✔ Help us improve Hardhat with anonymous crash reports & basic usage data? (Y/n) · false
 > ✔ Do you want to install this sample project's dependencies with npm (@nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers)? (Y/n) · y
+```
 
 When creating the sample project, it will also indicate that we should install some dependencies:
-```
+
+```bash
 $ npm install --save-dev @nomiclabs/hardhat-waffle@^2.0.0 ethereum-waffle@^3.0.0 chai@^4.2.0 @nomiclabs/hardhat-ethers@^2.0.0 ethers@^5.0.0
 ```
+
 The next time we run `npx hardhat` we will see the available tasks we can run:
 
+```bash
 >  accounts      Prints the list of accounts
 >  check         Check whatever you need
 >  clean         Clears the cache and deletes all artifacts
@@ -57,6 +65,7 @@ The next time we run `npx hardhat` we will see the available tasks we can run:
 >  node          Starts a JSON-RPC server on top of Hardhat Network
 >  run           Runs a user-defined script after compiling the project
 >  test          Runs mocha tests
+```
 
 Apparently as we add new plugins, they'll also show up in this list.
 
@@ -65,15 +74,18 @@ Apparently as we add new plugins, they'll also show up in this list.
 ## Tasks
 
 One of the sample tasks is `accounts` and is defined int he `hardhat.config.js` file. To run this task, we run:
-```
+
+```bash
 $ npx hardhat accounts
 ```
+
 This should run the sample task and print 10 account addresses. Apparently these are deterministic mainnet addresses which are the same for all hardhat users, with known private keys, and bots are likely monitoring them to withdraw funds sent to them. So it's advised to really never send any funds to these addresses.
 
 ## Contracts
 
 Hardhat will also install a contract in `contracts/Greeter.sol`:
-```
+
+```javascript
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
@@ -97,14 +109,18 @@ contract Greeter {
     }
 }
 ```
+
 This can be compiled with:
-```
+
+```bash
 $ npx hardhat compile
 ```
+
 ## Testing
 
 The next step is to test this contract. Hardhat also provides a sample test in the `test/sample-test.js` file:
-```
+
+```javascript
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
@@ -126,11 +142,14 @@ describe("Greeter", function () {
 });
 ```
 This can be run with:
-```
+
+```bash
 $ npx hardhat test
 ```
+
 We should see the test pass like so:
 
+```bash
 >   Greeter
 > Deploying a Greeter with greeting: Hello, world!
 > Changing greeting from 'Hello, world!' to 'Hola, mundo!'
@@ -138,14 +157,35 @@ We should see the test pass like so:
 > 
 > 
 >   1 passing (650ms)
+```
 
 ## Deploying
 
 Deploying contracts uses a script. In the `script/sample-script.js` file is the deployment process for the sample Greeter contract. This can be run with hardhat like so:
-```
+
+```bash
 $ npx hardhat run scripts/sample-script.js
 ```
+
 And this should deploy with the message:
 
+```bash
 > Deploying a Greeter with greeting: Hello, Hardhat!
 > Greeter deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+```
+
+## Hardhat Network
+
+Under the hood, this is running the script on the [hardhat network](https://hardhat.org/hardhat-network/), similar to the ganache-cli that we used in 01, and is akin to using the command:
+
+```bash
+$ npx hardhat run --network hardhat scripts/sample-script.js
+```
+
+We may instead want to run a standalone node so that other clients, e.g. a metamask client, Dapp front-end, or script, can connect to it. We can do that like so:
+
+```bash
+$ npx hardhat node
+```
+
+and then we can tell our wallet or application to connect to http://localhost:8545 and hardhat to use `--network localhost`.
