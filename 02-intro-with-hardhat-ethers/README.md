@@ -189,3 +189,31 @@ $ npx hardhat node
 ```
 
 and then we can tell our wallet or application to connect to http://localhost:8545 and hardhat to use `--network localhost`.
+
+## Hardhat Console
+
+While testing our code we may want to use the console:
+
+```bash
+$ npx hardhat console
+```
+
+This is just like the javascript console but we will have some stuff already imported for us, for instance if we'd like to get some new addresses to play with:
+
+```javascript
+> const [owner, addr1] = await ethers.getSigners();
+```
+
+We can also create a random address:
+
+```javascript
+> var result = await ethers.Wallet.createRandom()
+> result.address
+```
+
+and import other stuff like so:
+
+```javascript
+> const web3 = require("web3")
+> const hardhat = require("hardhat")
+```

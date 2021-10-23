@@ -21,7 +21,7 @@ $ npm install --save-dev @openzeppelin/contracts
 Then start a basic contract for our new NFT called `contracts/UniqueAsset.sol`:
 
 ```javascript
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
